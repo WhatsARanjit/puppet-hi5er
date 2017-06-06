@@ -61,7 +61,7 @@ categories, you can add the following to the rake task:
 
 ```
 conversion = HieraFiver.new(config_file)
-conversion.backends_data_hash  = (['yaml', 'json', 'someotherhash'])
+conversion.backends_data_hash  = (['yaml', 'json', 'hocon', 'someotherhash'])
 conversion.backends_lookup_key = (['eyaml', 'someotherlookup'])
 conversion.backends_data_dig   = (['somedatadig'])
 ```
