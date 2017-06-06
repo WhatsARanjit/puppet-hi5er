@@ -4,8 +4,9 @@ require 'yaml'
 class HieraFiver
 
   def initialize(config_file)
-    @backends_data_hash  = ['yaml', 'json']
+    @backends_data_hash  = ['yaml', 'json', 'hocon']
     @backends_lookup_key = ['eyaml']
+    @backends_data_dig   = []
   
     @config5 = { 'version' => 5, 'hierarchy' => [], }
     @config3 = YAML.load_file(config_file)
@@ -26,6 +27,9 @@ class HieraFiver
       elsif @backends_lookup_key.include?(backend)
         lookupk = 'lookup_key'
         lookupv = "#{backend}_lookup_key"
+      elsif @backends_data_dig.include?(backend)
+        lookupk = 'data_dig'
+        lookupv = "#{backend}_data_dig"
       else
         lookupk = 'hiera3_backend'
         lookupv = backend
