@@ -37,10 +37,14 @@ class HieraFiver
       level = {
         'name'    => "#{backend.capitalize} backend",
         lookupk   => lookupv,
-        'paths'   => @config3[:hierarchy].map { |p| interpolate(p) },
       }
+      options          = has_options?(backend) ? options_hash(backend) : false
+      # Use eyaml's configured extension if exists
+      extension        = options.has_key?('extension') ? options['extension'] : 'eyaml' if options
+      extension      ||= backend
+      level['paths']   = @config3[:hierarchy].map { |p| interpolate(p, extension) } if @config3[:hierarchy]
       level['datadir'] = @config3[backend.to_sym][:datadir] if @config3[backend.to_sym][:datadir]
-      level['options'] = options_hash(backend) if has_options?(backend)
+      level['options'] = options if options
       @config5['hierarchy'] << level
     end
   end
@@ -67,19 +71,19 @@ class HieraFiver
     @config3[backend.to_sym].select { |k,v| k != :datadir }.length > 0
   end
 
-  def interpolate(path)
+  def interpolate(path, extension)
     if path.include?('%')
-      "'#{path}'"
+      "'#{path}.#{extension}'"
     else
-      "\"#{path}\""
+      "\"#{path}.#{extension}\""
     end
   end
 
   def fix_quotes(input)
     # YAML does quotes automatically, so unable to easily
     # leave a double-quoted interpolation string behind.
-    fixed = input.gsub(/^(\s+)\- "'/, '\1- "')
-    fixed = fixed.gsub(/^(\s+)\- '"/, '\1- \'')
+    fixed = input.gsub(/^([\s\t]+)\- "'/, '\1- "')
+    fixed = fixed.gsub(/^([\s\t]+)\- '"/, '\1- \'')
     fixed = fixed.gsub(/'"$/, '"')
     fixed = fixed.gsub(/"'$/, '\'')
     fixed
