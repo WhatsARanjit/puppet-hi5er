@@ -13,7 +13,7 @@ class HieraFiver
   end
 
   # Use accessors in order to specify more backends under each category
-  attr_accessor :backends_data_hash, :backends_lookup_key
+  attr_accessor :backends_data_hash, :backends_lookup_key, :backends_data_dig
 
   def print5
     puts fix_quotes(@config5.to_yaml)
@@ -42,6 +42,8 @@ class HieraFiver
       # Use eyaml's configured extension if exists
       extension        = options.has_key?('extension') ? options['extension'] : 'eyaml' if options
       extension      ||= backend
+      # Eyaml extensions are handled in path now
+      #options.delete('extension') if backend == 'eyaml'
       level['paths']   = @config3[:hierarchy].map { |p| interpolate(p, extension) } if @config3[:hierarchy]
       level['datadir'] = @config3[backend.to_sym][:datadir] if @config3[backend.to_sym][:datadir]
       level['options'] = options if options

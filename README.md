@@ -23,8 +23,8 @@ hierarchy:
 - name: Yaml backend
   data_hash: yaml_data
   paths:
-  - "nodes/%{::trusted.certname}"
-  - 'common'
+  - "nodes/%{::trusted.certname}.yaml"
+  - 'common.yaml'
   datadir: "/etc/puppetlabs/code/environments/%{environment}/hieradata"
 ```
 
@@ -38,14 +38,14 @@ hierarchy:
 - name: Yaml backend
   data_hash: yaml_data
   paths:
-  - "nodes/%{::trusted.certname}"
-  - 'common'
+  - "nodes/%{::trusted.certname}.yaml"
+  - 'common.yaml'
   datadir: "/etc/puppetlabs/code/environments/%{environment}/hieradata"
 - name: Eyaml backend
   lookup_key: eyaml_lookup_key
   paths:
-  - "nodes/%{::trusted.certname}"
-  - 'common'
+  - "nodes/%{::trusted.certname}.eyaml"
+  - 'common.eyaml'
   datadir: "/etc/puppetlabs/code/environments/%{environment}/hieradata"
   options:
     pkcs7_private_key: "/path/to/private_key.pkcs7.pem"
