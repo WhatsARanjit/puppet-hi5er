@@ -28,10 +28,10 @@ hierarchy:
   datadir: "/etc/puppetlabs/code/environments/%{environment}/hieradata"
 ```
 
-Convert a test hiera.yaml file
+Convert a test hiera.yaml file (like the one in the repo)
 
 ```
-[root@master ~]# rake convert[/path/to/other.yaml]
+[root@master ~]# rake convert[./hiera_v3.yaml]
 ---
 version: 5
 hierarchy:
